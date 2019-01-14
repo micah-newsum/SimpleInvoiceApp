@@ -1,12 +1,16 @@
 import java.util.Scanner;
+import java.text.NumberFormat;
 /**
  * @author mnewsum
- * Credit Murach's Java Programming 5th Edition
+ * This is a simple invoice application that exhibits some of the fundamental components 
+ * of the Java language. 
  */
 
 public class InvoiceApp {
 
 	public static void main(String[] args) {
+		final double SALES_TAX_PCT = .0925;
+				
 		System.out.println("Simple Invoice Application");
 		System.out.println(); // prints a blank line
 		
@@ -32,12 +36,19 @@ public class InvoiceApp {
 			
 			// calculate the discount amount and total 
 			double discountAmount = subtotal * discountPercent;
-			double total = subtotal - discountAmount;
+			double totalBeforeTax = subtotal - discountAmount;
+			double salesTax = totalBeforeTax * SALES_TAX_PCT;
+			double total = totalBeforeTax + salesTax;
 			
 			// display the results 
-			String message = "Discount percent: " + discountPercent + "\n"
-						   + "Discount amount:  " + discountAmount  + "\n"
-						   + "Invoice total:    " + total + "\n";
+			NumberFormat currency = NumberFormat.getCurrencyInstance();
+			NumberFormat percent = NumberFormat.getPercentInstance();
+					
+			String message = "Discount percent: " + percent.format(discountPercent) + "\n"
+						   + "Discount amount:  " + currency.format(discountAmount)  + "\n"
+						   + "Invoice total:    " + currency.format(total) + "\n"
+						   + "Sales tax:        " + currency.format(salesTax) + "\n"
+						   + "Invoice total:    " + currency.format(total) + "\n";
 			System.out.println(message);
 			
 			// see if user wants to continue 
